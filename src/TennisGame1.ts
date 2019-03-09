@@ -1,20 +1,17 @@
 import { TennisGame } from './TennisGame';
-import { BooleanOperator } from "./service/BooleanOperator";
-import { isFunction , isNull} from "util";
 import { AdvantagesProvider } from "./provider/AdvantagesProvider";
 import { DrawsProvider } from "./provider/DrawsProvider";
 import { PointsProvider } from "./provider/PointsProvider";
 import { Player } from "./model/Player";
-import { Advantage } from "./model/Advantage";
 
 
 export class TennisGame1 implements TennisGame {
   readonly player1: Player;
   readonly player2: Player;
-  private score: string;
+  readonly matchPointScore = 4;
+  private score = '';
 
   constructor(player1Name: string, player2Name: string) {
-    this.score = '';
     this.player1 = new Player(player1Name);
     this.player2 = new Player(player2Name);
   }
@@ -32,7 +29,7 @@ export class TennisGame1 implements TennisGame {
     if (this.playerScoresAreEqual()) {
       this.score = DrawsProvider.getDrawTypeByScore(this.player1.getPointScore());
     }else if (this.isMatchPoint()) {
-      this.score = this.checkAdvantages(this.player1.getPointScore(), this.player2.getPointScore());
+      this.score = this.checkAdvantages();
     }else {
        this.checkWhoHasWonPoint();
     }
@@ -41,7 +38,7 @@ export class TennisGame1 implements TennisGame {
   }
 
   private isMatchPoint() {
-    return this.player1.getPointScore() >= 4 || this.player2.getPointScore() >= 4;
+    return this.player1.getPointScore() >= this.matchPointScore || this.player2.getPointScore() >= this.matchPointScore;
   }
 
   private playerScoresAreEqual() {
@@ -54,7 +51,6 @@ export class TennisGame1 implements TennisGame {
     this.calculatePlayerNewPoint(this.player2);
 
     this.score = this.player1.getPointType() + '-' + this.player2.getPointType();
-
   }
 
   private calculatePlayerNewPoint(player: Player) {
@@ -63,18 +59,9 @@ export class TennisGame1 implements TennisGame {
     }
   }
 
-  checkAdvantages(scorePlayer1: number, scorePlayer2: number) {
-    let checkAdvantage = null;
-    const booleanOperator = new BooleanOperator();
-    const minusResult: number = scorePlayer1 - scorePlayer2;
-
-    AdvantagesProvider.points.forEach(function (advantage: Advantage) {
-
-      if( isFunction(booleanOperator[advantage.function]) && isNull(checkAdvantage) ) {
-        checkAdvantage = booleanOperator[advantage.function](minusResult, advantage.score, advantage.type);
-      }
-    }, checkAdvantage);
-
-    return !isNull(checkAdvantage) ? checkAdvantage : 'Win for player2';
+  checkAdvantages() {
+    return AdvantagesProvider.getAdvantageByScoreDifferenceBetweenPlayers(
+        this.player1.getPointScore() - this.player2.getPointScore()
+    );
   }
 }
