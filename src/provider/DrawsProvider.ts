@@ -11,17 +11,6 @@ export class DrawsProvider {
         return this.draws;
     }
 
-    checkIfDrawScoreExist(score: number): boolean {
-
-        for (let i = 0; i < (this.draws.length); i++) {
-            if(score === this.draws[i].score){
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
     getDrawTypeByScore(score): string{
 
         for (let i = 0; i < (this.draws.length); i++) {
@@ -30,7 +19,7 @@ export class DrawsProvider {
             }
         }
 
-        return null;
+        return 'Deuce';
     }
 
 }
