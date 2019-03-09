@@ -8,8 +8,8 @@ import { Player } from "./model/Player";
 
 
 export class TennisGame1 implements TennisGame {
-  private player1: Player;
-  private player2: Player;
+  readonly player1: Player;
+  readonly player2: Player;
   private score: string;
   private advantageProvider: AdvantagesProvider;
   private drawsProvider: DrawsProvider;
