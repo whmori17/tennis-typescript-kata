@@ -1,25 +1,20 @@
 import {Draw} from "../model/Draw";
+import {PointsProvider} from "./PointsProvider";
+import {isNull} from "util";
 
-export class DrawsProvider {
-    private draws: Array<Draw> = [
+export class DrawsProvider extends PointsProvider{
+
+    protected points: Array<Draw> = [
         {score: 0, type: 'Love-All'},
         {score: 1, type: 'Fifteen-All'},
         {score: 2, type: 'Thirty-All'}
     ];
 
-    getDraws() : Array<Draw> {
-        return this.draws;
-    }
-
     getDrawTypeByScore(score): string{
 
-        for (let i = 0; i < (this.draws.length); i++) {
-            if(score === this.draws[i].score){
-                return this.draws[i].type;
-            }
-        }
+        const type = this.getPointTypeByScore(score);
 
-        return 'Deuce';
+        return !isNull(type) ? type : 'Deuce';
     }
 
 }

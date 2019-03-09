@@ -2,14 +2,15 @@ import {Point} from "../model/Point";
 
 
 export class PointsProvider {
-    private points: Array<Point> = [
+
+    protected points: Array<Point> = [
         {score: 0, type: 'Love'},
         {score: 1, type: 'Fifteen'},
         {score: 2, type: 'Thirty'},
         {score: 3, type: 'Forty'},
     ];
 
-    getDraws() : Array<Point> {
+    getPoints(): Array<Point> {
         return this.points;
     }
 
