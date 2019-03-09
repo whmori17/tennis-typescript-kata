@@ -1,5 +1,5 @@
 export class Advantage {
-    value: number;
+    score: number;
     function: string;
-    return: string;
+    type: string;
 }

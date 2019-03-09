@@ -3,17 +3,17 @@ import {Advantage} from "../model/Advantage";
 export class AdvantagesProvider {
 
     private advantages: Array<Advantage> = [{
-        value : 1,
+        score : 1,
         function: 'equalTo',
-        return: 'Advantage player1'
+        type: 'Advantage player1'
     },{
-        value : -1,
+        score : -1,
         function: 'equalTo',
-        return : 'Advantage player2'
+        type : 'Advantage player2'
     },{
-        value : 2,
+        score : 2,
         function: 'greaterThanOrEqualTo',
-        return :  'Win for player1'
+        type :  'Win for player1'
     }];
 
     getAdvantages(): Array<Advantage> {

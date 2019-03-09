@@ -3,17 +3,19 @@ import {BooleanOperator} from "./service/BooleanOperator";
 import {isFunction, isNull} from "util";
 import {AdvantagesProvider} from "./provider/AdvantagesProvider";
 import {DrawsProvider} from "./provider/DrawsProvider";
+import {PointsProvider} from "./provider/PointsProvider";
 
 
 export class TennisGame1 implements TennisGame {
-  private m_score1: number = 0;
-  private m_score2: number = 0;
+  private m_score1 = 0;
+  private m_score2 = 0;
   private player1Name: string;
   private player2Name: string;
   private score: string;
   private checkResult;
   private advantageProvider: AdvantagesProvider;
   private drawsProvider: DrawsProvider;
+  private pointsProvider: PointsProvider;
 
   constructor(player1Name: string, player2Name: string) {
     this.player1Name = player1Name;
@@ -22,6 +24,7 @@ export class TennisGame1 implements TennisGame {
     this.checkResult = null;
     this.advantageProvider = new AdvantagesProvider();
     this.drawsProvider = new DrawsProvider();
+    this.pointsProvider = new PointsProvider();
   }
 
   wonPoint(playerName: string): void {
@@ -54,34 +57,17 @@ export class TennisGame1 implements TennisGame {
 
   checkWhoHasWonPoint() {
 
-    let tempScore;
+    const player1Point = this.determinePoint(this.m_score1);
+    const player2Point = this.determinePoint(this.m_score2);
 
-    for (let i = 1; i < 3; i++) {
+    this.score = player1Point + '-' + player2Point;
 
-      if (i === 1) {
-        tempScore = this.m_score1;
-      }
-      else {
-        this.score += '-';
-        tempScore = this.m_score2;
-      }
+  }
 
-      switch (tempScore) {
-        case 0:
-          this.score += 'Love';
-          break;
-        case 1:
-          this.score += 'Fifteen';
-          break;
-        case 2:
-          this.score += 'Thirty';
-          break;
-        case 3:
-          this.score += 'Forty';
-          break;
-      }
+  private determinePoint(score) {
+    if (this.pointsProvider.checkIfPointScoreExist(score)) {
+      return this.pointsProvider.getPointTypeByScore(score);
     }
-
   }
 
   checkAdvantages(scorePlayer1: number, scorePlayer2: number) {
@@ -91,14 +77,14 @@ export class TennisGame1 implements TennisGame {
     this.advantageProvider.getAdvantages().forEach(function (advantage) {
 
       if( isFunction(booleanOperator[advantage.function]) && isNull(this.checkResult) ) {
-        this.checkResult = booleanOperator[advantage.function](minusResult, advantage.value, advantage.return);
+        this.checkResult = booleanOperator[advantage.function](minusResult, advantage.score, advantage.type);
       }
     }, this);
 
     return !isNull(this.checkResult) ? this.checkResult : 'Win for player2';
   }
 
-  checkDraw (scorePlayer1) : string {
+  checkDraw(scorePlayer1) : string {
 
     if (this.drawsProvider.checkIfDrawScoreExist(scorePlayer1)) {
       return this.drawsProvider.getDrawTypeByScore(scorePlayer1);
