@@ -1,8 +1,9 @@
 import {Advantage} from "../model/Advantage";
+import {PointsProvider} from "./PointsProvider";
 
-export class AdvantagesProvider {
+export class AdvantagesProvider extends PointsProvider{
 
-    private advantages: Array<Advantage> = [{
+    static points: Array<Advantage> = [{
         score : 1,
         function: 'equalTo',
         type: 'Advantage player1'
@@ -15,8 +16,4 @@ export class AdvantagesProvider {
         function: 'greaterThanOrEqualTo',
         type :  'Win for player1'
     }];
-
-    getAdvantages(): Array<Advantage> {
-        return this.advantages;
-    }
 }

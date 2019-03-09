@@ -4,13 +4,13 @@ import {isNull} from "util";
 
 export class DrawsProvider extends PointsProvider{
 
-    protected points: Array<Draw> = [
+    static points: Array<Draw> = [
         {score: 0, type: 'Love-All'},
         {score: 1, type: 'Fifteen-All'},
         {score: 2, type: 'Thirty-All'}
     ];
 
-    getDrawTypeByScore(score): string{
+    static getDrawTypeByScore(score): string{
 
         const type = this.getPointTypeByScore(score);
 
