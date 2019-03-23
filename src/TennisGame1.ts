@@ -28,9 +28,9 @@ export class TennisGame1 implements TennisGame {
       return DrawsProvider.getDrawTypeByScore(this.player1.point.getPointScore());
     }else if (this.isMatchPoint()) {
       return this.checkAdvantages();
-    }else {
-       return this.checkWhoHasWonPoint();
     }
+
+    return this.checkWhoHasWonPoint();
   }
 
   private isMatchPoint(): boolean {
