@@ -1,6 +1,6 @@
 export class Point {
-    score: number;
-    type: string;
+    private score: number;
+    private type: string;
 
     setPointScore(score: number): void {
         this.score = score;
