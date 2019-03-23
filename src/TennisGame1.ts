@@ -8,7 +8,6 @@ export class TennisGame1 implements TennisGame {
   readonly player1: Player;
   readonly player2: Player;
   readonly matchPointScore = 4;
-  private score = '';
 
   constructor(player1Name: string, player2Name: string) {
     this.player1 = new Player(player1Name);
@@ -26,39 +25,37 @@ export class TennisGame1 implements TennisGame {
   getScore(): string {
 
     if (this.playerScoresAreEqual()) {
-      this.score = DrawsProvider.getDrawTypeByScore(this.player1.point.getPointScore());
+      return DrawsProvider.getDrawTypeByScore(this.player1.point.getPointScore());
     }else if (this.isMatchPoint()) {
-      this.score = this.checkAdvantages();
+      return this.checkAdvantages();
     }else {
-       this.checkWhoHasWonPoint();
+       return this.checkWhoHasWonPoint();
     }
-
-    return this.score;
   }
 
-  private isMatchPoint() {
+  private isMatchPoint(): boolean {
     return this.player1.point.getPointScore() >= this.matchPointScore || this.player2.point.getPointScore() >= this.matchPointScore;
   }
 
-  private playerScoresAreEqual() {
+  private playerScoresAreEqual(): boolean {
     return this.player1.point.getPointScore() === this.player2.point.getPointScore();
   }
 
-  checkWhoHasWonPoint() {
+  checkWhoHasWonPoint(): string {
 
     this.calculatePlayerNewPoint(this.player1);
     this.calculatePlayerNewPoint(this.player2);
 
-    this.score = this.player1.point.getPointType() + '-' + this.player2.point.getPointType();
+    return this.player1.point.getPointType() + '-' + this.player2.point.getPointType();
   }
 
-  private calculatePlayerNewPoint(player: Player) {
+  private calculatePlayerNewPoint(player: Player): void {
     if (PointsProvider.checkIfPointScoreExist(player.point.getPointScore())) {
       player.point.setPointType(PointsProvider.getPointTypeByScore(player.point.getPointScore()));
     }
   }
 
-  checkAdvantages() {
+  checkAdvantages(): string {
     return AdvantagesProvider.getAdvantageByScoreDifferenceBetweenPlayers(
         this.player1.point.getPointScore() - this.player2.point.getPointScore()
     );
