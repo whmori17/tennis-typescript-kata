@@ -4,7 +4,6 @@ import { DrawsProvider } from "./provider/DrawsProvider";
 import { PointsProvider } from "./provider/PointsProvider";
 import { Player } from "./model/Player";
 
-
 export class TennisGame1 implements TennisGame {
   readonly player1: Player;
   readonly player2: Player;
@@ -18,16 +17,16 @@ export class TennisGame1 implements TennisGame {
 
   wonPoint(playerName: string): void {
     if (playerName === this.player1.name){
-      this.player1.incrementPointScore();
+      this.player1.point.incrementPointScore();
     } else{
-      this.player2.incrementPointScore();
+      this.player2.point.incrementPointScore();
     }
   }
 
   getScore(): string {
 
     if (this.playerScoresAreEqual()) {
-      this.score = DrawsProvider.getDrawTypeByScore(this.player1.getPointScore());
+      this.score = DrawsProvider.getDrawTypeByScore(this.player1.point.getPointScore());
     }else if (this.isMatchPoint()) {
       this.score = this.checkAdvantages();
     }else {
@@ -38,11 +37,11 @@ export class TennisGame1 implements TennisGame {
   }
 
   private isMatchPoint() {
-    return this.player1.getPointScore() >= this.matchPointScore || this.player2.getPointScore() >= this.matchPointScore;
+    return this.player1.point.getPointScore() >= this.matchPointScore || this.player2.point.getPointScore() >= this.matchPointScore;
   }
 
   private playerScoresAreEqual() {
-    return this.player1.getPointScore() === this.player2.getPointScore();
+    return this.player1.point.getPointScore() === this.player2.point.getPointScore();
   }
 
   checkWhoHasWonPoint() {
@@ -50,18 +49,18 @@ export class TennisGame1 implements TennisGame {
     this.calculatePlayerNewPoint(this.player1);
     this.calculatePlayerNewPoint(this.player2);
 
-    this.score = this.player1.getPointType() + '-' + this.player2.getPointType();
+    this.score = this.player1.point.getPointType() + '-' + this.player2.point.getPointType();
   }
 
   private calculatePlayerNewPoint(player: Player) {
-    if (PointsProvider.checkIfPointScoreExist(player.getPointScore())) {
-      player.setPointType(PointsProvider.getPointTypeByScore(player.getPointScore()));
+    if (PointsProvider.checkIfPointScoreExist(player.point.getPointScore())) {
+      player.point.setPointType(PointsProvider.getPointTypeByScore(player.point.getPointScore()));
     }
   }
 
   checkAdvantages() {
     return AdvantagesProvider.getAdvantageByScoreDifferenceBetweenPlayers(
-        this.player1.getPointScore() - this.player2.getPointScore()
+        this.player1.point.getPointScore() - this.player2.point.getPointScore()
     );
   }
 }
