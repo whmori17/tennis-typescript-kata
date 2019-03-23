@@ -46,7 +46,7 @@ export class TennisGame1 implements TennisGame {
     this.calculatePlayerNewPoint(this.player1);
     this.calculatePlayerNewPoint(this.player2);
 
-    return this.player1.point.getPointType() + '-' + this.player2.point.getPointType();
+    return `${this.player1.point.getPointType()}-${this.player2.point.getPointType()}`;
   }
 
   private calculatePlayerNewPoint(player: Player): void {
