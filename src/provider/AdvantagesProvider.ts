@@ -5,27 +5,19 @@ import {BooleanOperator} from "../service/BooleanOperator";
 
 export class AdvantagesProvider extends PointsProvider{
 
-    static points: Array<Advantage> = [{
-        score : 1,
-        function: 'equalTo',
-        type: 'Advantage player1'
-    },{
-        score : -1,
-        function: 'equalTo',
-        type : 'Advantage player2'
-    },{
-        score : 2,
-        function: 'greaterThanOrEqualTo',
-        type :  'Win for player1'
-    }];
+    static points: Array<Advantage> = [
+        new Advantage(1, 'Advantage player1', 'equalTo'),
+        new Advantage(-1, 'Advantage player2', 'equalTo'),
+        new Advantage(2, 'Win for player1', 'greaterThanOrEqualTo'),
+    ];
 
     static getAdvantageByScoreDifferenceBetweenPlayers(scoreDifferenceBetweenPlayers: number) {
         let checkAdvantage = null;
         const booleanOperator = new BooleanOperator();
 
         AdvantagesProvider.points.forEach(function (advantage: Advantage) {
-            if (isFunction(booleanOperator[advantage.function]) && isNull(checkAdvantage)) {
-                checkAdvantage = booleanOperator[advantage.function](scoreDifferenceBetweenPlayers, advantage.score, advantage.type);
+            if (isFunction(booleanOperator[advantage.getCheckScoreFunction()]) && isNull(checkAdvantage)) {
+                checkAdvantage = booleanOperator[advantage.getCheckScoreFunction()](scoreDifferenceBetweenPlayers, advantage.getScore(), advantage.getType());
             }
         }, checkAdvantage);
 

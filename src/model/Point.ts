@@ -2,23 +2,27 @@ export class Point {
     private score: number;
     private type: string;
 
-    setPointScore(score: number): void {
+    constructor(score: number, type: string) {
+        this.score = score;
+        this.type = type;
+    }
+    setScore(score: number): void {
         this.score = score;
     }
 
-    incrementPointScore(): void {
+    incrementScore(): void {
         this.score +=1;
     }
 
-    getPointScore(): number {
+    getScore(): number {
         return this.score;
     }
 
-    setPointType(type: string): void {
+    setType(type: string): void {
         this.type = type;
     }
 
-    getPointType(): string {
+    getType(): string {
         return this.type;
     }
 }

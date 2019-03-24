@@ -5,9 +5,9 @@ import {isNull} from "util";
 export class DrawsProvider extends PointsProvider{
 
     static points: Array<Draw> = [
-        {score: 0, type: 'Love-All'},
-        {score: 1, type: 'Fifteen-All'},
-        {score: 2, type: 'Thirty-All'}
+        new Draw(0, 'Love-All'),
+        new Draw(1, 'Fifteen-All'),
+        new Draw(2, 'Thirty-All'),
     ];
 
     static getDrawTypeByScore(score): string{

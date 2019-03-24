@@ -4,16 +4,16 @@ import {Point} from "../model/Point";
 export class PointsProvider {
 
     static points: Array<Point> = [
-        {score: 0, type: 'Love'},
-        {score: 1, type: 'Fifteen'},
-        {score: 2, type: 'Thirty'},
-        {score: 3, type: 'Forty'},
+        new Point(0, 'Love'),
+        new Point(1, 'Fifteen'),
+        new Point(2, 'Thirty'),
+        new Point(3, 'Forty'),
     ];
 
     static checkIfPointScoreExist(score: number): boolean {
 
         for (let i = 0; i < (PointsProvider.points.length); i++) {
-            if(score === PointsProvider.points[i].score){
+            if(score === PointsProvider.points[i].getScore()){
                 return true;
             }
         }
@@ -24,8 +24,8 @@ export class PointsProvider {
     static getPointTypeByScore(score): string{
 
         for (let i = 0; i < (this.points.length); i++) {
-            if(score === this.points[i].score){
-                return this.points[i].type;
+            if(score === this.points[i].getScore()){
+                return this.points[i].getType();
             }
         }
 
